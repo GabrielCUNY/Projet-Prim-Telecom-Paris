@@ -5,7 +5,7 @@ success,image = vidcap.read()
 count = 0
 success = True
 while success:
-  cv2.imwrite("../data/frame%d.jpg" % count, image)     # save frame as JPEG file
+  cv2.imwrite("../data/pre-detection/frame%d.jpg" % count, image)     # save frame as JPEG file
   success,image = vidcap.read()
   print('Read a new frame: ', success)
   count += 1

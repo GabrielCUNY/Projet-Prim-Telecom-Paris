@@ -27,6 +27,8 @@ def detection(path, model_path, len_):
         out.close()
         return
 
+
+
 if __name__ == "__main__":
     pass
     #path = "cou"
