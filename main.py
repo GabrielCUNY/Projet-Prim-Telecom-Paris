@@ -36,6 +36,12 @@ config['ds']['max_cosine_distance'] = 0.25
 config['ds']['nn_budget'] = 100
 config['ds']['alpha_ds'] = 0.0
 
+
+#config pca
+config['pca'] = {}
+config['pca']['active'] = True
+config['pca']['ndim'] = 300
+
 def conf_id(config):
     for k,v in configs.items():
         if v==config:
@@ -86,13 +92,13 @@ for arg in sys.argv[:2]:
 
     elif arg == "ds":
         print("Running Deep Sort algorithm...")
-        if not os.path.exists(config['path']+"data/"+config['vid_name']+"/det"+config['feature_extraction']['str']+("_pca"+config['pca']['str']+"" if config['pca']['active'] else '')+"_ds"+config['ds']['str']+"/"):
-            os.mkdir(config['path']+"data/"+config['vid_name']+"/det"+config['feature_extraction']['str']+("_pca"+config['pca']['str']+"" if config['pca']['active'] else '')+"_ds"+config['ds']['str']+"/")
+        if not os.path.exists(config['path']+"data/"+config['vid_name']+"/post-detection"+config['feature_extraction']['str']+("_pca"+config['pca']['str']+"" if config['pca']['active'] else '')+"_ds"+config['ds']['str']+"/"):
+            os.mkdir(config['path']+"data/"+config['vid_name']+"/post-detection"+config['feature_extraction']['str']+("_pca"+config['pca']['str']+"" if config['pca']['active'] else '')+"_ds"+config['ds']['str']+"/")
         os.system("python3 "+config['path']+"deep_sort/deep_sort_app.py \
         --sequence_dir="+config['path']+"data/"+config['vid_name']+"/ \
-        --detection_file='"+ config['path'] + "data/" + config['vid_name'] + "/det" + config['feature_extraction']['str']+("_pca"+config['pca']['str']+"" if config['pca']['active'] else '')+"/det.npy' \
+        --detection_file='"+ config['path'] + "data/" + config['vid_name'] + "/post-detection" + config['feature_extraction']['str']+("_pca"+config['pca']['str']+"" if config['pca']['active'] else '')+ "_ds"+config['ds']['str'] + "/result_detection.npy' \
         --offset="+str(config['offset'])+" \
-        --n_frames=" + str(config['n_frames']) + " \
+        --n_frames=" + str(config['n_frame']) + " \
         --max_iou_distance=" + str(config['ds']['max_iou_distance']) + " \
         --max_age=" + str(int(config['ds']['max_age'])) + " \
         --alpha_ds=" + str(config['ds']['alpha_ds']) + "\
@@ -103,4 +109,14 @@ for arg in sys.argv[:2]:
         --output_file='"+config['path']+"data/"+config['vid_name']+"/post-detection"+config['feature_extraction']['str']+("_pca"+config['pca']['str']+"" if config['pca']['active'] else '')+"_ds"+config['ds']['str']+"/result_detection.npy' \
         --display=False")
         print("Deep Sort tracklets stored in "+config['path']+"data/"+config['vid_name']+"/post-detection"+config['feature_extraction']['str']+("_pca"+config['pca']['str']+"" if config['pca']['active'] else '')+"_ds"+config['ds']['str']+"/result_detection.npy")
-        score_ds()
+
+
+    elif arg == "video":
+        os.system("python3 " + config['path'] + "show_results.py \
+           --sequence_dir=" + config['path'] + "data/" + config['vid_name'] + "/ \
+           --result_file='" + config['path'] + "data/" + config['vid_name'] + "/post-detection" + config['fe']['str'] + (
+            "_pca"+config['pca']['str']+"" if config['pca']['active'] else '') + "_ds" + config['ds']['str'] + "_pc" + config['pc']['str'] + "/result_detection.npy' \
+           --offset=" + str(config['offset']) + " \
+           --output_file='" + config['path'] + "results/" + config['vid_name'] + config['fe']['str'] + (
+                      "_pca"+config['pca']['str']+"" if config['pca']['active'] else '') + "_ds" + config['ds']['str'] + "_pc" + config['pc']['str'] + ".avi' \
+           --update_ms=41")
