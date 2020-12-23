@@ -13,7 +13,7 @@ virtualenv: $(ENV_PATH)/bin/activate
 
 # Virtualenv file containing python libraries.
 $(ENV_PATH)/bin/activate:
-	virtualenv -p /usr/bin/python3 $(ENV_PATH)
+	virtualenv -p /usr/local/bin/python3 $(ENV_PATH)
 
 # Install python requirements.
 pip: virtualenv
@@ -23,3 +23,9 @@ pip: virtualenv
 install: pip
 
 ### Projet targets ###
+
+detect:
+	python3 main.py det
+
+deeps: 
+	python3 main.py ds
