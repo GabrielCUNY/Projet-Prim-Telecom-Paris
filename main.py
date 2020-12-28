@@ -69,54 +69,5 @@ for arg in sys.argv[:2]:
 
 
     if arg == "det":
-        print("Detection Start, it will be stored in /detection/result_detection.txt")
+        print("Detection Start, it will be stored in /data/det/result_detection.txt")
         detection(config['path']+"data/" + config['vid_name'], config['path'] +"yolo-tiny.h5", config['n_frame'])
-
-
-
-    elif arg == "fe":
-        print("Features extraction from detection boxes "+("'and open pose data/'" if config['feature_extraction']['alpha_op'] > 0 else '')+"...")
-        os.system("python3 "+config['path']+"deep_sort/tools/generate_detections.py \
-        --model="+config['path']+"deep_sort/resources/networks/mars-small128.pb \
-        --mot_dir="+config['path'] + "data/" + config['vid_name'] + "/ \
-        --offset="+str(config['offset'])+" \
-        --det_stage='det"+config['feature_extraction']['str']+"' \
-        --openpose="+("'openpose/'" if config['feature_extraction']['alpha_op'] > 0 else '')+" \
-        --lomo="+str(config['feature_extraction']['lomo'])+"\
-        --alpha_op=" + str(config['feature_extraction']['alpha_op']) + "\
-        --lomo_config=" + config['path'] + str(config['feature_extraction']['lomo_config'])+" \
-        --output_dir='" + config['path'] + "data/" + config['vid_name'] + "/post-detection" + config['feature_extraction']['str']+"'")
-        print("Detections + Features stored in "+ config['path'] + "data/" + config['vid_name'] + "/post-detection" + config['feature_extraction']['str']+"/result_detection.npy")
-
-
-
-    elif arg == "ds":
-        print("Running Deep Sort algorithm...")
-        if not os.path.exists(config['path']+"data/"+config['vid_name']+"/post-detection"+config['feature_extraction']['str']+("_pca"+config['pca']['str']+"" if config['pca']['active'] else '')+"_ds"+config['ds']['str']+"/"):
-            os.mkdir(config['path']+"data/"+config['vid_name']+"/post-detection"+config['feature_extraction']['str']+("_pca"+config['pca']['str']+"" if config['pca']['active'] else '')+"_ds"+config['ds']['str']+"/")
-        os.system("python3 "+config['path']+"deep_sort/deep_sort_app.py \
-        --sequence_dir="+config['path']+"data/"+config['vid_name']+"/ \
-        --detection_file='"+ config['path'] + "data/" + config['vid_name'] + "/post-detection" + config['feature_extraction']['str']+("_pca"+config['pca']['str']+"" if config['pca']['active'] else '')+ "_ds"+config['ds']['str'] + "/result_detection.npy' \
-        --offset="+str(config['offset'])+" \
-        --n_frames=" + str(config['n_frame']) + " \
-        --max_iou_distance=" + str(config['ds']['max_iou_distance']) + " \
-        --max_age=" + str(int(config['ds']['max_age'])) + " \
-        --alpha_ds=" + str(config['ds']['alpha_ds']) + "\
-        --n_init=" + str(int(config['ds']['n_init'])) + " \
-        --min_confidence=" + str(config['ds']['min_confidence']) + " \
-        --max_cosine_distance=" + str(config['ds']['max_cosine_distance']) + "\
-        --nn_budget=" + str(int(config['ds']['nn_budget'])) + " \
-        --output_file='"+config['path']+"data/"+config['vid_name']+"/post-detection"+config['feature_extraction']['str']+("_pca"+config['pca']['str']+"" if config['pca']['active'] else '')+"_ds"+config['ds']['str']+"/result_detection.npy' \
-        --display=False")
-        print("Deep Sort tracklets stored in "+config['path']+"data/"+config['vid_name']+"/post-detection"+config['feature_extraction']['str']+("_pca"+config['pca']['str']+"" if config['pca']['active'] else '')+"_ds"+config['ds']['str']+"/result_detection.npy")
-
-
-    elif arg == "video":
-        os.system("python3 " + config['path'] + "show_results.py \
-           --sequence_dir=" + config['path'] + "data/" + config['vid_name'] + "/ \
-           --result_file='" + config['path'] + "data/" + config['vid_name'] + "/post-detection" + config['fe']['str'] + (
-            "_pca"+config['pca']['str']+"" if config['pca']['active'] else '') + "_ds" + config['ds']['str'] + "_pc" + config['pc']['str'] + "/result_detection.npy' \
-           --offset=" + str(config['offset']) + " \
-           --output_file='" + config['path'] + "results/" + config['vid_name'] + config['fe']['str'] + (
-                      "_pca"+config['pca']['str']+"" if config['pca']['active'] else '') + "_ds" + config['ds']['str'] + "_pc" + config['pc']['str'] + ".avi' \
-           --update_ms=41")
