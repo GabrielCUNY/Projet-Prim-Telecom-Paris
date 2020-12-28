@@ -27,5 +27,5 @@ install: pip
 detect:
 	python3 main.py det
 
-deeps: 
-	python3 main.py ds
+ds:
+	rm deep_sort/custom/detections/det.npy && python3 deep_sort/tools/generate_detections.py --model=deep_sort/resources/networks/mars-small128.pb --mot_dir=data/video --output_dir=deep_sort/custom/detections && python3 deep_sort/deep_sort_app.py --sequence_dir=data/video --detection_file=deep_sort/custom/detections/custom_video.npy --min_confidence=0.3 --nn_budget=100 --display=True
