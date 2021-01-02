@@ -3,7 +3,7 @@ import os, csv
 yolo = ObjectDetection()
 
 def detection(path, model_path, len_):
-    out = open(path+"/det/result_detection.txt","w")
+    out = open(path+"/det/det.txt","w")
     with out:
         writer = csv.writer(out)
         #MOT Challenge format
@@ -11,7 +11,7 @@ def detection(path, model_path, len_):
         for f in range(len_):
             if f%10==0: print(str(f)+" / "+str(len_))
             input_path = path+"/img1/frame"+str(f)+".jpg"
-            output_path = path+"/det/frame"+str(f)+".jpg"
+            output_path = path+"/det/img1/"+str(f)+".jpg"
 
             yolo.setModelTypeAsTinyYOLOv3()
             yolo.setModelPath(model_path)
@@ -31,6 +31,3 @@ def detection(path, model_path, len_):
 
 if __name__ == "__main__":
     pass
-    #path = "cou"
-    #if os.path.exists()
-    #yolo("/resultat_detection")

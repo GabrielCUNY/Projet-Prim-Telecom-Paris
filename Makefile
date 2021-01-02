@@ -2,6 +2,7 @@
 PROJECT_PATH := $(CURDIR)
 ENV_PATH := $(CURDIR)/python_env
 PYTHON := $(ENV_PATH)/bin/python3
+DEEPSORT_PATH := $(CURDIR)/deep_sort
 
 ### Globall installation ###
 
@@ -17,7 +18,7 @@ $(ENV_PATH)/bin/activate:
 
 # Install python requirements.
 pip: virtualenv
-	$(VENV) && cd $(APP_PATH) && pip3 install -r $(PROJECT_PATH)/requirements.txt;
+	$(VENV) && cd $(APP_PATH) && pip3 install -r $(PROJECT_PATH)/requirements.txt && mkdir $(PROJECT_PATH)/data/video/det/img1;
 
 # Global install.
 install: pip
@@ -25,7 +26,7 @@ install: pip
 ### Projet targets ###
 
 detect:
-	python3 main.py det
+	$(VENV) && $(PYTHON) $(PROJECT_PATH)/main.py det
 
 ds:
-	rm deep_sort/custom/detections/det.npy && python3 deep_sort/tools/generate_detections.py --model=deep_sort/resources/networks/mars-small128.pb --mot_dir=data/video --output_dir=deep_sort/custom/detections && python3 deep_sort/deep_sort_app.py --sequence_dir=data/video --detection_file=deep_sort/custom/detections/det.npy --min_confidence=0.3 --nn_budget=100 --display=True
+	$(VENV) && rm $(DEEPSORT_PATH)/custom/detection/det.npy && $(PYTHON) $(DEEPSORT_PATH)/tools/generate_detections.py --model=$(DEEPSORT_PATH)/resources/networks/mars-small128.pb --mot_dir=$(PROJECT_PATH)/data/video --output_dir=$(DEEPSORT_PATH)/custom/detections && $(PYTHON) $(DEEPSORT_PATH)/deep_sort_app.py --sequence_dir=$(PROJECT_PATH)data/video --detection_file= $(DEEPSORT_PATH)/custom/detections/det.npy --min_confidence=0.3 --nn_budget=100 --display=True
