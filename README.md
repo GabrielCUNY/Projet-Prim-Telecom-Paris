@@ -1,17 +1,27 @@
 # Projet-Prim-Telecom-Paris
 Projet Prim Telecom Paris Tracking Football Player
 
-## 1_ Convert your video in jpg frame by frame
+The objective of this project is to use a football video to track the players and record their speed throughout the match in a JSON file.
+
+## 1_ Execute:
+
+`make install`
+
+## 2_ Download this file  and put it in deep_sort folder :
+
+https://drive.google.com/drive/folders/1uN0K0xGLJHpsKAt-ekkNjtYOs889lgk0?usp=sharing
+
+## 3_ Execute:
+
+`make all`
+
+
+## If you want your proper video
+
+Erase the previous frame in data/video/img1
 
 change the path in convert_to_frame/main.py file
-It will be saved in the data/pre-detection/ file.
+It will be saved in the data/video/img1 file.
 
 than execute
 `python convert_to_frame/main.py`
-
-## 2_ Run detection
-
-_first verify that the file result_detection.txt (in data/post-detection folder) is blank (if it does not exist create the vacuum as this can cause problems on some machines)
-
-then execute
-`python main.py detection`
