@@ -26,7 +26,7 @@ install: pip
 ### Projet targets ###
 GEN = $(PYTHON) $(DEEPSORT_PATH)/tools/generate_detections.py --model=$(DEEPSORT_PATH)/resources/networks/mars-small128.pb --mot_dir=$(PROJECT_PATH)/data/video --output_dir=$(DEEPSORT_PATH)/custom/detections
 
-DS = $(PYTHON) $(DEEPSORT_PATH)/deep_sort_app.py --sequence_dir=$(PROJECT_PATH)/data/video/det --detection_file=$(DEEPSORT_PATH)/custom/detections/det.npy --min_confidence=0.3 --nn_budget=100 --display=True
+DS = $(PYTHON) $(DEEPSORT_PATH)/deep_sort_app.py --sequence_dir=$(PROJECT_PATH)/data/video/det --detection_file=$(DEEPSORT_PATH)/custom/detections/det.npy --output_file=$(PROJECT_PATH)/resultat_deep_sort/result.txt --min_confidence=0.3 --nn_budget=100 --display=True
 
 DETECT = $(PYTHON) $(PROJECT_PATH)/main.py det
 
@@ -38,3 +38,9 @@ all_ds:
 
 ds:
 	$(VENV) && $(DS)
+
+all_new:
+	$(VENV) && rm -R data/video/img1 && mkdir data/video/img1 && $(PYTHON) $(PROJECT_PATH)/convert_to_frames/main.py $(video_path) $(n_frame) && $(DETECT) && rm $(DEEPSORT_PATH)/custom/detections/det.npy && $(GEN) && $(DS)
+
+add_new:
+	$(VENV) && $(PYTHON) $(PROJECT_PATH)/convert_to_frames/main.py $(video_path) $(n_frame)

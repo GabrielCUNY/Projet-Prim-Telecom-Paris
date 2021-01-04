@@ -42,9 +42,6 @@ def update_config(config):
 update_config(config)
 
 for arg in sys.argv[:2]:
-
-
-
     if arg == "det":
         print("Detection Start, it will be stored in /data/det/det.txt")
         detection(config['path']+"data/" + config['vid_name'], config['path'] +"yolo-tiny.h5", config['n_frame'])

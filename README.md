@@ -18,10 +18,4 @@ https://drive.google.com/drive/folders/1uN0K0xGLJHpsKAt-ekkNjtYOs889lgk0?usp=sha
 
 ## If you want your proper video
 
-Erase the previous frame in data/video/img1
-
-change the path in convert_to_frame/main.py file
-It will be saved in the data/video/img1 file.
-
-than execute
-`python convert_to_frame/main.py`
+`make all_new video_path=YourVideoPATH n_frame=(The number of frames you want. Make sure the video is long enough for this.)`
