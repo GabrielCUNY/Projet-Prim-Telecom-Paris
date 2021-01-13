@@ -23,7 +23,7 @@ endif
 
 # Install python requirements.
 pip: virtualenv
-	$(VENV) && cd $(APP_PATH) && pip3 install -r $(PROJECT_PATH)/requirements.txt && mkdir $(PROJECT_PATH)/data/video/det/img1 && git submodule update --init;
+	$(VENV) && cd $(APP_PATH) && pip3 install -r $(PROJECT_PATH)/requirements.txt && mkdir $(PROJECT_PATH)/data/video/det/img1;
 
 # Global install.
 install: pip
