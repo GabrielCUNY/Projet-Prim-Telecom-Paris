@@ -41,6 +41,9 @@ all:
 all_ds:
 	$(VENV) && rm $(DEEPSORT_PATH)/custom/detections/det.npy && $(GEN) && $(DS)
 
+gen:
+	$(VENV) && $(GEN)
+
 ds:
 	$(VENV) && $(DS)
 
