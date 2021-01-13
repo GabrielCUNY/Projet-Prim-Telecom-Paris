@@ -3,7 +3,7 @@ PROJECT_PATH := $(CURDIR)
 ENV_PATH := $(CURDIR)/python_env
 PYTHON := $(ENV_PATH)/bin/python3
 DEEPSORT_PATH := $(CURDIR)/deep_sort
-
+PATH_TO_PY3 := /usr/bin/python3
 ### Globall installation ###
 
 # Shortcut to set env command before each python cmd.
@@ -13,12 +13,17 @@ VENV = source $(ENV_PATH)/bin/activate
 virtualenv: $(ENV_PATH)/bin/activate
 
 # Virtualenv file containing python libraries.
+ifneq ("$(wildcard $(PATH_TO_PY3))","")
+$(ENV_PATH)/bin/activate:
+	virtualenv -p $(PATH_TO_PY3) $(ENV_PATH)
+else
 $(ENV_PATH)/bin/activate:
 	virtualenv -p /usr/local/bin/python3 $(ENV_PATH)
+endif
 
 # Install python requirements.
 pip: virtualenv
-	$(VENV) && cd $(APP_PATH) && pip3 install -r $(PROJECT_PATH)/requirements.txt && mkdir $(PROJECT_PATH)/data/video/det/img1;
+	$(VENV) && cd $(APP_PATH) && pip3 install -r $(PROJECT_PATH)/requirements.txt && mkdir $(PROJECT_PATH)/data/video/det/img1 && git submodule update --init;
 
 # Global install.
 install: pip
