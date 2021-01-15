@@ -33,7 +33,9 @@ GEN = $(PYTHON) $(DEEPSORT_PATH)/tools/generate_detections.py --model=$(DEEPSORT
 
 DS = $(PYTHON) $(DEEPSORT_PATH)/deep_sort_app.py --sequence_dir=$(PROJECT_PATH)/data/video/det --detection_file=$(DEEPSORT_PATH)/custom/detections/det.npy --output_file=$(PROJECT_PATH)/resultat_deep_sort/result.txt --min_confidence=0.3 --nn_budget=100 --display=True
 
-DETECT = $(PYTHON) $(PROJECT_PATH)/main.py det
+DETECT = $(PYTHON) $(PROJECT_PATH)/detection/detection.py --project_path=$(PROJECT_PATH) --video_name=video --n_frame=500
+
+
 
 all:
 	$(VENV) && $(DETECT) && rm $(DEEPSORT_PATH)/custom/detections/det.npy && $(GEN) && $(DS)
@@ -41,10 +43,13 @@ all:
 all_ds:
 	$(VENV) && rm $(DEEPSORT_PATH)/custom/detections/det.npy && $(GEN) && $(DS)
 
-gen:
+detect:
+	$(VENV) && $(DETECT)
+
+generate_detections:
 	$(VENV) && $(GEN)
 
-ds:
+deep_sort:
 	$(VENV) && $(DS)
 
 all_new:
