@@ -36,24 +36,30 @@ DS = $(PYTHON) $(DEEPSORT_PATH)/deep_sort_app.py --sequence_dir=$(PROJECT_PATH)/
 DETECT = $(PYTHON) $(PROJECT_PATH)/detection/detection.py --project_path=$(PROJECT_PATH) --video_name=video --n_frame=500
 
 
-
+#execute from detection to tracking with the video cut frame by frame provided
 all:
 	$(VENV) && $(DETECT) && rm $(DEEPSORT_PATH)/custom/detections/det.npy && $(GEN) && $(DS)
 
-all_ds:
+#Execute all the tracking with the detection already done but without the .npy file.
+all_deep_sort:
 	$(VENV) && rm $(DEEPSORT_PATH)/custom/detections/det.npy && $(GEN) && $(DS)
 
+#perform the detection alone
 detect:
 	$(VENV) && $(DETECT)
 
+#execute the generation of the npy file
 generate_detections:
 	$(VENV) && $(GEN)
 
+#execute only deep_sort (you already have the npy file corresponding to your detection)
 deep_sort:
 	$(VENV) && $(DS)
 
+#Execute all with a new video not cut frame by fram
 all_new:
 	$(VENV) && rm -R data/video/img1 && mkdir data/video/img1 && $(PYTHON) $(PROJECT_PATH)/convert_to_frames/main.py $(video_path) $(n_frame) && $(DETECT) && rm $(DEEPSORT_PATH)/custom/detections/det.npy && $(GEN) && $(DS)
 
+#Découper une vidéo image par image
 add_new:
 	$(VENV) && $(PYTHON) $(PROJECT_PATH)/convert_to_frames/main.py $(video_path) $(n_frame)
