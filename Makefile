@@ -22,7 +22,7 @@ $(ENV_PATH)/bin/activate:
 endif
 
 #downloader drive weight
-DOWNLOAD = $(PYTHON) download_drive.py --deep_sort_path=$(DEEPSORT_PATH)
+DOWNLOAD = $(PYTHON) $(PROJECT_PATH)/download_drive.py --deep_sort_path=$(DEEPSORT_PATH)
 # Install python requirements.
 pip: virtualenv
 	$(VENV) && cd $(APP_PATH) && pip3 install -r $(PROJECT_PATH)/requirements.txt && mkdir $(PROJECT_PATH)/data/video/det/img1 && mkdir $(DEEPSORT_PATH)/resources && mkdir $(DEEPSORT_PATH)/resources/detections && mkdir $(DEEPSORT_PATH)/resources/detections/MOT16_POI_train && mkdir $(DEEPSORT_PATH)/resources/detections/MOT16_POI_test && mkdir $(DEEPSORT_PATH)/resources/networks && $(DOWNLOAD);
@@ -38,7 +38,7 @@ DEEPSORT = $(PYTHON) $(DEEPSORT_PATH)/deep_sort_app.py --sequence_dir=$(PROJECT_
 DETECT = $(PYTHON) $(PROJECT_PATH)/detection/detection.py --project_path=$(PROJECT_PATH) --video_name=video --n_frame=500
 
 download:
-	$(DOWNLOAD)
+	$(VENV) && $(DOWNLOAD)
 
 #execute from detection to tracking with the video cut frame by frame provided
 all:
