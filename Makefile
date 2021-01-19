@@ -6,6 +6,8 @@ DEEPSORT_PATH := $(CURDIR)/deep_sort
 PATH_TO_PY3 := /usr/bin/python3
 ### Globall installation ###
 
+
+
 # Shortcut to set env command before each python cmd.
 VENV = source $(ENV_PATH)/bin/activate
 
@@ -22,13 +24,17 @@ $(ENV_PATH)/bin/activate:
 endif
 
 #downloader drive weight
-DONWLOAD = $(VENV) $(PYTHON) download_drive.py --deep_sort_path=$(DEEPSORT_PATH)
+DOWNLOAD = $(PYTHON) $(PROJECT_PATH)/download_drive.py --deep_sort_path=$(DEEPSORT_PATH)
 # Install python requirements.
+directory : 
+	mkdir -p $(PROJECT_PATH)/data/video/det/img1 && mkdir -p $(DEEPSORT_PATH)/resources/detections/MOT16_POI_train && mkdir -p $(DEEPSORT_PATH)/resources/detections/MOT16_POI_test && mkdir -p $(DEEPSORT_PATH)/resources/networks
+download_dr:
+	$(VENV) && $(DOWNLOAD);
 pip: virtualenv
-	$(VENV) && cd $(APP_PATH) && pip3 install -r $(PROJECT_PATH)/requirements.txt && mkdir $(PROJECT_PATH)/data/video/det/img1 && mkdir $(DEEPSORT_PATH)/resources && mkdir $(DEEPSORT_PATH)/resources/detections && mkdir $(DEEPSORT_PATH)/resources/detections/MOT16_POI_train && mkdir $(DEEPSORT_PATH)/resources/detections/MOT16_POI_test && mkdir $(DEEPSORT_PATH)/resources/networks && $(DOWNLOAD);
+	$(VENV) && cd $(APP_PATH) && pip3 install -r $(PROJECT_PATH)/requirements.txt;
 
 # Global install.
-install: pip
+install: pip directory download_dr
 
 #projet target#
 GENERATION_NPY = $(PYTHON) $(DEEPSORT_PATH)/tools/generate_detections.py --model=$(DEEPSORT_PATH)/resources/networks/mars-small128.pb --mot_dir=$(PROJECT_PATH)/data/video --output_dir=$(DEEPSORT_PATH)/custom/detections
@@ -37,6 +43,8 @@ DEEPSORT = $(PYTHON) $(DEEPSORT_PATH)/deep_sort_app.py --sequence_dir=$(PROJECT_
 
 DETECT = $(PYTHON) $(PROJECT_PATH)/detection/detection.py --project_path=$(PROJECT_PATH) --video_name=video --n_frame=500
 
+download:
+	$(VENV) && $(DOWNLOAD)
 
 #execute from detection to tracking with the video cut frame by frame provided
 all:
