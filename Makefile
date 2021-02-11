@@ -16,10 +16,10 @@ virtualenv: $(ENV_PATH)/bin/activate
 # Virtualenv file containing python libraries.
 ifneq ("$(wildcard $(PATH_TO_PY3))","")
 $(ENV_PATH)/bin/activate:
-	virtualenv -p $(PATH_TO_PY3) $(ENV_PATH)
+	python -m virtualenv -p $(PATH_TO_PY3) $(ENV_PATH)
 else
 $(ENV_PATH)/bin/activate:
-	virtualenv -p /usr/local/bin/python3 $(ENV_PATH)
+	python -m virtualenv -p /usr/local/bin/python3 $(ENV_PATH)
 endif
 
 #downloader drive weight
