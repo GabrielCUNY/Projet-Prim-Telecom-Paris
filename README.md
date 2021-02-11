@@ -4,7 +4,7 @@ Projet Prim Telecom Paris Tracking Football Player
 The objective of this project is to use a football video to track the players and record their speed throughout the match in a JSON file.
 
 ## Installation
-`git clone --recurse-submodules --remote-submodules`
+`git clone --recurse-submodules 'https://github.com/GabrielCUNY/Projet-Prim-Telecom-Paris.git'`
 
 ### in the directory project 
 `make install`
