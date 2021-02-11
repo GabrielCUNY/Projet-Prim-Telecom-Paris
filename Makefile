@@ -7,7 +7,6 @@ PATH_TO_PY3 := /usr/bin/python3
 ### Globall installation ###
 
 
-
 # Shortcut to set env command before each python cmd.
 VENV = source $(ENV_PATH)/bin/activate
 
@@ -63,7 +62,7 @@ generate_detections:
 	$(VENV) && $(GENERATION_NPY)
 
 #execute only deep_sort (you already have the npy file corresponding to your detection)
-deep_sort:
+deeps:
 	$(VENV) && $(DEEPSORT)
 
 #Execute all with a new video not cut frame by fram
@@ -73,3 +72,9 @@ all_new:
 #Découper une vidéo image par image
 add_new:
 	$(VENV) && $(PYTHON) $(PROJECT_PATH)/convert_to_frames/main.py $(video_path) $(n_frame)
+
+video: 
+	$(VENV) && $(PYTHON) $(DEEPSORT_PATH)/generate_videos.py --mot_dir=$(PROJECT_PATH)/data/video --result_dir=$(DEEPSORT_PATH)/result_moteval --output_dir=$(PROJECT_PATH)/resultat_deep_sort --update_ms=40 
+
+moteval: 
+	$(VENV) && $(PYTHON) $(DEEPSORT_PATH)/evaluate_motchallenge.py --mot_dir=$(PROJECT_PATH)/data/video --detection_dir=$(DEEPSORT_PATH)/custom/detections --output_dir=$(DEEPSORT_PATH)/result_moteval
