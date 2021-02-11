@@ -5,6 +5,8 @@ The objective of this project is to use a football video to track the players an
 
 ## Installation
 `git clone --recurse-submodules --remote-submodules`
+
+# in the directory project 
 `make install`
 
 ## Run the video test.
